@@ -1,2 +1,12 @@
 # 96_Hack-Squad
-"A comprehensive website auditing platform that scans websites for security vulnerabilities, performance bottlenecks, SEO issues, and accessibility compliance. It delivers clear, actionable reports with recommended fixes, empowering site owners to enhance security, speed, visibility, and usability."
+Step 1:
+     Import the code from the files to the python runable application.
+Step 2:
+     Open the teminal in application and install
+     pip install flask requests beautifuksoup4
+Step 3:
+     Run the app.py code.
+Step 4:
+     And go through the output page click on the appeared url in the screen.
+Step 5:
+     Insert the wanted website link to audit or analyze.
