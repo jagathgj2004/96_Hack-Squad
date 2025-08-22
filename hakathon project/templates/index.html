@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Website Audit Tool - Custom Output</title>
+    <style>
+        body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: auto; padding: 20px; background: #f7f9fc; color: #333; }
+        h1 { text-align: center; color: #2c3e50; }
+        form { margin-bottom: 30px; }
+        input[type="url"] { width: 100%; padding: 12px; font-size: 1.1em; box-sizing: border-box; border: 2px solid #3498db; border-radius: 5px; }
+        button { background-color: #3498db; color: white; border: none; padding: 12px 25px; font-size: 1.1em; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #2980b9; }
+
+        .report-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        .category {
+            margin-bottom: 15px;
+            border-left: 6px solid #3498db;
+            padding-left: 15px;
+            background: #ecf0f1;
+            border-radius: 6px;
+        }
+        .category-header {
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: bold;
+            padding: 8px 0;
+            color: #34495e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .issues-list {
+            margin-top: 5px;
+            padding-left: 20px;
+            display: none;
+        }
+        .issues-list.active {
+            display: block;
+        }
+        .issue-item {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .issue-count {
+            background-color: #3498db;
+            color: white;
+            padding: 0 10px;
+            border-radius: 50%;
+            font-size: 0.9em;
+        }
+        .no-issues {
+            color: #27ae60;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Audit Tool</h1>
+    <form method="POST">
+        <input type="url" name="url" placeholder="Enter website URL" value="{{ url }}" required autocomplete="off" />
+        <button type="submit">Run Audit</button>
+    </form>
+
+    {% if report %}
+    <div class="report-container">
+        <h2>Audit Report for <em>{{ url }}</em></h2>
+
+        {% for category, issues in report.items() %}
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory('{{ category }}')">
+                <span>{{ category.capitalize() }} Issues</span>
+                <span class="issue-count">{{ issues|length }}</span>
+            </div>
+            <div id="list-{{ category }}" class="issues-list {% if issues|length > 0 %}active{% endif %}">
+                {% if issues %}
+                    <ul>
+                    {% for issue in issues %}
+                        <li class="issue-item">{{ issue }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="no-issues">No issues found in this category.</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <script>
+        function toggleCategory(category) {
+            const element = document.getElementById('list-' + category);
+            if(element.classList.contains('active')) {
+                element.classList.remove('active');
+            } else {
+                element.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
